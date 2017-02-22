@@ -45,7 +45,7 @@ module.exports = function(env) {
       filename: '[name]',
       library: 'Quill',
       libraryTarget: 'umd',
-      path: path.resolve(__dirname, '../dist/')
+      path: path.resolve(__dirname, '../../dist/')
     },
     resolve: {
       alias: {
