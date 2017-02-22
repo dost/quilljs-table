@@ -259,6 +259,7 @@ Keyboard.DEFAULTS = {
 
 
 function handleBackspace(range, context) {
+  if (handleTables(range, this.quill)) return true; // handle tables
   if (range.index === 0) return;
   let [line, ] = this.quill.getLine(range.index);
   let formats = {};
@@ -277,6 +278,7 @@ function handleBackspace(range, context) {
 }
 
 function handleDelete(range, context) {
+  if (handleTables(range, this.quill)) return true; // handle tables
   // Check for astral symbols
   let length = /^[\uD800-\uDBFF][\uDC00-\uDFFF]/.test(context.suffix) ? 2 : 1;
   if (range.index >= this.quill.getLength() - length) return;
@@ -284,12 +286,14 @@ function handleDelete(range, context) {
 }
 
 function handleDeleteRange(range) {
+  // if (handleTables(range, this.quill)) return true; // handle tables
   this.quill.deleteText(range, Quill.sources.USER);
   this.quill.setSelection(range.index, Quill.sources.SILENT);
   this.quill.selection.scrollIntoView();
 }
 
 function handleEnter(range, context) {
+  // if (handleTables(range, this.quill)) return true; // handle tables
   if (range.length > 0) {
     this.quill.scroll.deleteAt(range.index, range.length);  // So we do not trigger text-change
   }
@@ -380,6 +384,14 @@ function normalize(binding) {
     }
   }
   return binding;
+}
+
+function handleTables(range, quill) {
+  return true; // eslint-disable-line
+  debugger; // eslint-disable-line
+  let [line, ] = quill.getLine(range.index);
+  if (line && line.next && line.next.domNode.nodeName === "TABLE") return true;
+  return false;
 }
 
 
