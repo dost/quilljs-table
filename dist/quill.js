@@ -5852,6 +5852,7 @@ function handleTables(range, quill) {
       line = _quill$getLine8[0];
 
   if (line && line.next && line.next.domNode.nodeName === "TABLE") return true;
+  if (line && line.next && line.domNode.nodeName === "TABLE") return true;
   return false;
 }
 

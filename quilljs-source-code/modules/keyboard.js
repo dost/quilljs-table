@@ -391,6 +391,7 @@ function handleTables(range, quill) {
   debugger; // eslint-disable-line
   let [line, ] = quill.getLine(range.index);
   if (line && line.next && line.next.domNode.nodeName === "TABLE") return true;
+  if (line && line.next && line.domNode.nodeName === "TABLE") return true;
   return false;
 }
 

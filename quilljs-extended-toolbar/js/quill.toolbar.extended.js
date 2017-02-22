@@ -106,25 +106,25 @@ class Table extends BlockEmbed {
     return node;
   }
 
-  static value(node) {
-    console.log('table value');
-    var ret = [];
-    if(node.tagName === 'table') {
-      let rows = node.rows;
-      for (let i = 0; i < rows.length; i++) {
-        ret[i] = [];
-        for (let j = 0; j < rows[i].cells.length; j++) {
-          ret[i].push(rows[i].cells[j].innerText);
-        }
-      }
-    }
-    return ret;
-  }
+  // static value(node) {
+  //   console.log('table value');
+  //   var ret = [];
+  //   if(node.tagName === 'table') {
+  //     let rows = node.rows;
+  //     for (let i = 0; i < rows.length; i++) {
+  //       ret[i] = [];
+  //       for (let j = 0; j < rows[i].cells.length; j++) {
+  //         ret[i].push(rows[i].cells[j].innerText);
+  //       }
+  //     }
+  //   }
+  //   return ret;
+  // }
 
-  static formats(node) {
-    console.log('table formats');
-    // super.formats(node);
-  }
+  // static formats(node) {
+  //   console.log('table formats');
+  //   super.formats(node);
+  // }
 
   delta() {
     // console.log('table delta');
@@ -142,20 +142,20 @@ class Table extends BlockEmbed {
   //   // super.formatAt(index, length, name, value);
   // }
 
-  insertAt(index, value, def) {
-    console.log('table insertAt');
-    // super.insertAt(index, value, def);
-  }
+  // insertAt(index, value, def) {
+  //   console.log('table insertAt');
+  //   super.insertAt(index, value, def);
+  // }
 
   // optimize() {
   //   console.log('table optimize');
   //   super.optimize();
   // }
 
-  replace(target) {
-    console.log('table replace');
-    super.replace(target);
-  }
+  // replace(target) {
+  //   console.log('table replace');
+  //   super.replace(target);
+  // }
 
   remove() {
     console.log('table remove');
