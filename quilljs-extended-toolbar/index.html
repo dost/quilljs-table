@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" value="David Nekovář, http://smarlify.co">
+  <title>QuillJS - extended toolbar</title>
+
+  <!-- Include the Quill snow theme -->
+  <link href="../dist/quill.snow.css" rel="stylesheet">
+
+  <!-- Include the Quill extended toolbar CSS -->
+  <link href="css/quill.toolbar.extended.css" rel="stylesheet">
+
+  <!-- Example page styles -->
+  <style>
+    body {
+      padding: 3%;
+    }
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <!-- Create the toolbar container -->
+  <div id="toolbar"></div>
+
+  <!-- Create the editor container -->
+  <div id="editor"></div>
+
+  <!-- Include the Quill library -->
+  <script src="../dist/quill.js"></script>
+
+  <!-- Include the Quill extended toolbar JS -->
+  <script src="js/quill.toolbar.extended.js"></script>
+
+  <!-- Initialize Quill editor -->
+  <script>
+    let maxRows = 10;
+    let maxCols = 5;
+    let tableOptions = [];
+    for (let r = 1; r <= maxRows; r++) {
+      for (let c = 1; c <= maxCols; c++) {
+        tableOptions.push('newtable_' + r + '_' + c);
+      }
+    }
+
+    let toolbarOptions = [
+      // Extended toolbar buttons
+      ['placeholder'],
+      ['if'],
+      [{ 'table': tableOptions }],
+      // ['table'],
+      // Extended toolbar buttons
+
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'align': [] }],
+
+      ['link', 'image', 'code-block'],
+
+      ['clean']
+    ];
+
+    let quill = new Quill('#editor', {
+      modules: {
+        toolbar: {
+          container: toolbarOptions,
+          handlers: {
+            // Essential for <if>
+            if: function() {
+              let value = quill.getFormat().if;
+              if (value) {
+                value = prompt('Edit variable name (Cancel to remove)', value);
+              } else {
+                value = prompt('Enter variable name', value);
+              }
+              quill.format('if', value);
+            }
+          }
+        }
+      },
+      theme: 'snow'
+    });
+
+    let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":{"table":"<tbody><tr><td>1</td><td> 2</td><td>3 </td><td>4 </td><td>5 </td></tr><tr><td>a</td><td> b</td><td> c</td><td> d</td><td> e</td></tr><tr><td>f</td><td> g</td><td> h</td><td> i</td><td> j</td></tr></tbody>"}}]}
+    quill.setContents(delta);
+
+  </script>
+</body>
+</html>
