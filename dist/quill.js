@@ -6726,7 +6726,7 @@ var Toolbar = function (_Module) {
 
         if (_this2.handlers[format] != null) {
           _this2.handlers[format].call(_this2, value);
-        } else if (_parchment2.default.query(format).prototype instanceof _parchment2.default.Embed && _parchment2.default.query(format).blotName != 'table') {
+        } else if (_parchment2.default.query(format).prototype instanceof _parchment2.default.Embed && _parchment2.default.query(format).blotName != 'table' && _parchment2.default.query(format).blotName != 'embed_table') {
           value = prompt('Enter ' + format);
           if (!value) return;
           _this2.quill.updateContents(new _quillDelta2.default().retain(range.index).delete(range.length).insert(_defineProperty({}, format, value)), _quill2.default.sources.USER);

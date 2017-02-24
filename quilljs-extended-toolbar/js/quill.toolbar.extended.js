@@ -5,63 +5,31 @@ let BlockEmbed = Quill.import('blots/block/embed');
 
 //
 //
-// TABLE TAG
+// EMBED TABLE TAG
 //
 
-class StaticInline extends Inline {
-  // static formats(node) {
-  //   console.log('inline formats');
-  // }
-  //
-  // delta() {
-  //   console.log('inline delta');
-  // }
-  //
-  // format(name, value) {
-  //   console.log('table format');
-  // }
-  //
-  // formatAt(index, length, name, value) {
-  //   console.log('table formatAt');
-  // }
-  //
-  // insertAt(index, value, def) {
-  //   console.log('table insertAt');
-  // }
-  //
-  // optimize() {
-  //   console.log('inline optimize');
-  // }
-  //
-  // replace(target) {
-  //   console.log('inline replace');
-  // }
-  //
-  // remove() {
-  //   console.log('inline remove');
-  // }
-}
+class StaticInline extends Inline {}
 Quill.register(StaticInline);
 
-class Td extends StaticInline {}
+class InlineTd extends StaticInline {}
 
-Td.blotName = 'td';
-Td.tagName = 'td';
-Quill.register(Td);
+InlineTd.blotName = 'inline_td';
+InlineTd.tagName = 'td';
+Quill.register(InlineTd);
 
-class Tr extends StaticInline {}
+class InlineTr extends StaticInline {}
 
-Tr.blotName = 'tr';
-Tr.tagName = 'tr';
-Quill.register(Tr);
+InlineTr.blotName = 'inline_tr';
+InlineTr.tagName = 'tr';
+Quill.register(InlineTr);
 
-class Tbody extends StaticInline {}
+class InlineTbody extends StaticInline {}
 
-Tbody.blotName = 'tbody';
-Tbody.tagName = 'tbody';
-Quill.register(Tbody);
+InlineTbody.blotName = 'inline_tbody';
+InlineTbody.tagName = 'tbody';
+Quill.register(InlineTbody);
 
-class Table extends BlockEmbed {
+class EmbedTable extends BlockEmbed {
   static create(value) {
     let node = super.create(value);
 
@@ -128,7 +96,7 @@ class Table extends BlockEmbed {
 
   delta() {
     // console.log('table delta');
-    let d = new Delta().insert({ table: this.domNode.innerHTML });
+    let d = new Delta().insert({ embed_table: this.domNode.innerHTML });
     return d;
   }
 
@@ -164,9 +132,9 @@ class Table extends BlockEmbed {
   }
 }
 
-Table.blotName = 'table';
-Table.tagName = 'table';
-Quill.register(Table);
+EmbedTable.blotName = 'embed_table';
+EmbedTable.tagName = 'table';
+Quill.register(EmbedTable);
 
 //
 //
