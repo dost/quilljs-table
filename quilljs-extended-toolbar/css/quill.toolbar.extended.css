@@ -7,6 +7,11 @@
   display: block;
 }
 
+#editor x-contain, contain {
+  background: #ffbb88;
+  display: block;
+}
+
 #editor table {
   width: 100%;
 }
@@ -28,6 +33,10 @@
 
 .ql-x-if:after, .ql-if:after {
   content: "<IF>";
+}
+
+.ql-contain:after, .contain:after {
+  content: "<WRAP>";
 }
 
 button.ql-table::after {
