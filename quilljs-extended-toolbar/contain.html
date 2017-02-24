@@ -42,8 +42,6 @@
 
     let toolbarOptions = [
       // Extended toolbar buttons
-      ['placeholder'],
-      ['if'],
       ['contain'],
       // ['table'],
       // Extended toolbar buttons
@@ -77,7 +75,7 @@
       theme: 'snow'
     });
 
-    let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":"container text\n","attributes":{"contain":"yes"}}]}
+    let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":" text\n\ncontainer text"},{"insert":"\n","attributes":{"contain":"CONTAIN"}}]}
     quill.setContents(delta);
 
   </script>

@@ -6,6 +6,9 @@ let Parchment = Quill.import('parchment');
 let BlockEmbed = Quill.import('blots/block/embed');
 let TextBlot = Quill.import('blots/text');
 
+
+const NEWLINE_LENGTH = 1;
+
 //
 //
 // CONTAINER TAG
@@ -22,24 +25,6 @@ class ContainBlot extends Container {
     return domNode.tagName;
   }
 
-  insertBefore(blot, ref) {
-    console.log('run....');
-      console.log(blot);
-    if (blot instanceof TextBlot) {
-      super.insertBefore(blot.parent, ref);
-    } else if (blot instanceof ContainBlot) {
-      let index = ref == null ? this.length() : ref.offset(this);
-      let after = this.split(index);
-      console.log(after)
-    } else {
-      let index = ref == null ? this.length() : ref.offset(this);
-      let after = this.split(index);
-      blot.parent = after
-      console.log(after)
-      super.insertBefore(blot, ref);
-    }
-  }
-
   format(name, value) {
     if (this.children.length > 0) {
       this.children.tail.format(name, value);
@@ -49,6 +34,17 @@ class ContainBlot extends Container {
   formats() {
     // We don't inherit from FormatBlot
     return { [this.statics.blotName]: this.statics.formats(this.domNode) }
+  }
+
+  optimize() {
+    super.optimize();
+    let next = this.next;
+    if (next != null && next.prev === this &&
+        next.statics.blotName === this.statics.blotName &&
+        next.domNode.tagName === this.domNode.tagName) {
+      next.moveChildren(this);
+      next.remove();
+    }
   }
 
   replace(target) {
@@ -68,5 +64,5 @@ ContainBlot.defaultChild = 'block';
 ContainBlot.allowedChildren = [Block, BlockEmbed, Container];
 
 Quill.register(ContainBlot);
-Quill.debug('debug');
+Quill.debug('info');
 
