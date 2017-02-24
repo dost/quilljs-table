@@ -13,23 +13,30 @@ let TextBlot = Quill.import('blots/text');
 // TABLE TAG
 //
 
-class extendedContainer extends Container {
+class tableCell extends Block {
 
   static create (value) {
-    console.log('create' + ' (' + this.blotName.toUpperCase() + ')');
-    console.log('*** length() skipped' + ' (' + this.blotName.toUpperCase() + ') ***');
+    // console.log('create' + ' (' + this.blotName.toUpperCase() + ')');
+    // console.log('*** length() skipped' + ' (' + this.blotName.toUpperCase() + ') ***');
     let node = super.create(value);
     return node;
   }
 
   static formats(node) {
-    console.log('formats' + ' (' + this.domNode.nodeName + ')');
-    super.formats(node);
+    // console.log('formats' + ' (' + node.nodeName + ')');
+    // super.formats(node);
   }
 
   delta() {
-    console.log('delta' + ' (' + this.domNode.nodeName+ ')');
-    super.delta();
+    let d = super.delta();
+    if (d && d['ops'] && d['ops'][1] && d['ops'][1]['attributes']) {
+      d['ops'][1]['attributes']["table-cell"] = {
+        "cellId": "table-cell-zxwscqtywssf",
+        "rowId": "table-row-oksghsnmwiwc",
+        "id": "table-id-tpbprwzxdlvn"
+      };
+    }
+    return d;
   }
 
   format(name, value) {
@@ -53,8 +60,8 @@ class extendedContainer extends Container {
   }
 
   optimize() {
-    console.log('optimize' + ' (' + this.domNode.nodeName + ')');
-    super.optimize();
+    // console.log('optimize' + ' (' + this.domNode.nodeName + ')');
+    // super.optimize();
   }
 
   replace(target) {
@@ -87,20 +94,20 @@ class extendedContainer extends Container {
     super.detach();
   }
 
-  length() {
-    // console.log('length' + ' (' + this.domNode.nodeName + ')');
-    super.length();
-  }
+  // length() {
+  //   console.log('length' + ' (' + this.domNode.nodeName + ')');
+  //   super.length();
+  // }
 
   moveChildren(targetParent, refNode) {
     console.log('moveChildren' + ' (' + this.domNode.nodeName + ')');
     super.moveChildren(targetParent, refNode);
   }
 
-  path(index, inclusive) {
-    console.log('path' + ' (' + this.domNode.nodeName + ')');
-    super.path(index, inclusive);
-  }
+  // path(index, inclusive) {
+  //   console.log('path' + ' (' + this.domNode.nodeName + ')');
+  //   super.path(index, inclusive);
+  // }
 
   removeChild(child) {
     console.log('removeChild' + ' (' + this.domNode.nodeName + ')');
@@ -123,134 +130,253 @@ class extendedContainer extends Container {
   }
 
 }
-Quill.register(extendedContainer);
 
-class Td extends extendedContainer {
-  static create(value) {
-    let node = super.create(value);
-    // let block = Block.create(value);
-    // node.appendChild(block);
-    return node;
-  }
-}
+tableCell.blotName = 'table-cell';
+tableCell.tagName = 'td';
+Quill.register(tableCell);
 
-Td.blotName = 'td';
-Td.tagName = 'td';
-Td.allowedChildren = [Block, Embed, Break, Inline, TextBlot, Container];
-Td.scope = Parchment.Scope.BLOCK_BLOT;
-Quill.register(Td);
 
-class Tr extends extendedContainer {
-  static create(value) {
-    let node = super.create(value);
-    let cols = 0;
-
-    if(typeof value === 'string' && value.includes('newtable_')) {
-      let value_arr = value.split('_');
-      cols = value_arr[2];
-    } else {
-      alert('error');
-    }
-
-    for (let c = 0; c < cols; c++) {
-      let td = Td.create(' ');
-      node.appendChild(td);
-    }
-
-    return node;
-  }
-}
-
-Tr.blotName = 'tr';
-Tr.tagName = 'tr';
-Tr.defaultChild = 'td'
-Tr.allowedChildren = [Td];
-Tr.scope = Parchment.Scope.BLOCK_BLOT;
-Quill.register(Tr);
-
-class Tbody extends extendedContainer {
-  static create(value) {
-    let node = super.create(value);
-    let rows = 0;
-
-    if(typeof value === 'string' && value.includes('newtable_')) {
-      let value_arr = value.split('_');
-      rows = value_arr[1];
-    } else {
-      alert('error');
-    }
-
-    for (let r = 0; r < rows; r++) {
-      let tr = Tr.create(value);
-      node.appendChild(tr);
-    }
-
-    return node;
-  }
-}
-
-Tbody.blotName = 'tbody';
-Tbody.tagName = 'tbody';
-Tbody.defaultChild = 'tr'
-Tbody.allowedChildren = [Tr];
-Tbody.scope = Parchment.Scope.BLOCK_BLOT;
-Quill.register(Tbody);
-
-class Table extends extendedContainer {
-  static create(value) {
-    let node = super.create(value);
-
-    let tbody = Tbody.create(value);
-    node.appendChild(tbody);
-
-    // if(value === true || value.includes('newtable_')) {
-    //   node = this.generate_empty_table(value, node);
-    // } else if(typeof value === 'string' || value.includes('td')) {
-    //   node.innerHTML = value;
-    // }
-
-    return node;
-  }
-
-  // static generate_empty_table(value, node) {
-  //   let cols = 5;
-  //   let rows = 5;
-  //   if(typeof value === 'string' && value.includes('newtable_')) {
-  //     let value = value.split('_');
-  //     rows = value[1];
-  //     cols = value[2];
-  //   } else {
-  //     rows = prompt('Number of rows?', cols);
-  //     cols = prompt('Number of cols?', cols);
-  //   }
-  //   value = [];
-  //   for (let r = 0; r < rows; r++) {
-  //     value[r] = [];
-  //     for (let c = 0; c < cols; c++) {
-  //       value[r].push("");
-  //     }
-  //   }
-  //   var tbody = document.createElement('tbody');
-  //   value.forEach(row => {
-  //     var tr = document.createElement('tr');
-  //     tbody.appendChild(tr);
-  //     row.forEach(cell => {
-  //       let td = document.createElement('td');
-  //       td.innerText = cell;
-  //       tr.appendChild(td);
-  //     })
-  //   })
-  //   node.appendChild(tbody);
-  //   return node;
-  // }
-}
-
-Table.blotName = 'table';
-Table.tagName = 'table';
-Table.defaultChild = 'tbody'
-Table.allowedChildren = [Tbody];
-Table.scope = Parchment.Scope.BLOCK_BLOT;
-Quill.register(Table);
+// class extendedContainer extends Container {
+//
+//   static create (value) {
+//     console.log('create' + ' (' + this.blotName.toUpperCase() + ')');
+//     console.log('*** length() skipped' + ' (' + this.blotName.toUpperCase() + ') ***');
+//     let node = super.create(value);
+//     return node;
+//   }
+//
+//   static formats(node) {
+//     console.log('formats' + ' (' + this.domNode.nodeName + ')');
+//     super.formats(node);
+//   }
+//
+//   delta() {
+//     console.log('delta' + ' (' + this.domNode.nodeName+ ')');
+//     super.delta();
+//   }
+//
+//   format(name, value) {
+//     console.log('format' + ' (' + this.domNode.nodeName + ')');
+//     super.format(name, value);
+//   }
+//
+//   formatAt(index, length, name, value) {
+//     console.log('formatAt' + ' (' + this.domNode.nodeName+ ')');
+//     super.formatAt(index, length, name, value);
+//   }
+//
+//   insertBefore(blot, ref) {
+//     console.log('insertBefore' + ' (' + this.domNode.nodeName + ')');
+//     super.insertBefore(blot, ref);
+//   }
+//
+//   insertAt(index, value, def) {
+//     console.log('insertAt' + ' (' + this.domNode.nodeName + ')');
+//     super.insertAt(index, value, def);
+//   }
+//
+//   optimize() {
+//     console.log('optimize' + ' (' + this.domNode.nodeName + ')');
+//     super.optimize();
+//   }
+//
+//   replace(target) {
+//     console.log('replace' + ' (' + this.domNode.nodeName + ')');
+//     super.replace(target);
+//   }
+//
+//   remove() {
+//     console.log('remove' + ' (' + this.domNode.nodeName + ')');
+//     super.remove();
+//   }
+//
+//   appendChild(other) {
+//     console.log('appendChild' + ' (' + this.domNode.nodeName + ')');
+//     super.appendChild(other);
+//   }
+//
+//   attach() {
+//     console.log('attach' + ' (' + this.domNode.nodeName + ')');
+//     super.attach();
+//   }
+//
+//   deleteAt(index, length) {
+//     console.log('deleteAt' + ' (' + this.domNode.nodeName + ')');
+//     super.deleteAt(index, length);
+//   }
+//
+//   detach() {
+//     console.log('detach' + ' (' + this.domNode.nodeName + ')');
+//     super.detach();
+//   }
+//
+//   length() {
+//     // console.log('length' + ' (' + this.domNode.nodeName + ')');
+//     super.length();
+//   }
+//
+//   moveChildren(targetParent, refNode) {
+//     console.log('moveChildren' + ' (' + this.domNode.nodeName + ')');
+//     super.moveChildren(targetParent, refNode);
+//   }
+//
+//   path(index, inclusive) {
+//     console.log('path' + ' (' + this.domNode.nodeName + ')');
+//     super.path(index, inclusive);
+//   }
+//
+//   removeChild(child) {
+//     console.log('removeChild' + ' (' + this.domNode.nodeName + ')');
+//     super.removeChild(child);
+//   }
+//
+//   split(index, force) {
+//     console.log('split' + ' (' + this.domNode.nodeName + ')');
+//     super.split(index, force);
+//   }
+//
+//   unwrap() {
+//     console.log('uwrap' + ' (' + this.domNode.nodeName + ')');
+//     super.unwrap();
+//   }
+//
+//   update(mutations) {
+//     console.log('uwrap' + ' (' + this.domNode.nodeName + ')');
+//     super.update(mutations);
+//   }
+//
+// }
+// Quill.register(extendedContainer);
+//
+// class Td extends extendedContainer {
+//   static create(value) {
+//     let node = super.create(value);
+//     let block = Block.create();
+//     let text = TextBlot.create(value);
+//     block.appendChild(text);
+//     node.appendChild(block);
+//     return node;
+//   }
+// }
+//
+// Td.blotName = 'td';
+// Td.tagName = 'td';
+// Td.allowedChildren = [Block];
+// Td.defaultChild = 'block'
+// Td.scope = Parchment.Scope.BLOCK_BLOT;
+// Quill.register(Td);
+//
+// class Tr extends extendedContainer {
+//   static create(value) {
+//     let node = super.create(value);
+//     let cols = 0;
+//
+//     if(typeof value === 'string' && value.includes('newtable_')) {
+//       let value_arr = value.split('_');
+//       cols = value_arr[2];
+//     } else {
+//       alert('error');
+//     }
+//
+//     for (let c = 0; c < cols; c++) {
+//       let td = Td.create(' ');
+//       node.appendChild(td);
+//     }
+//
+//     return node;
+//   }
+// }
+//
+// Tr.blotName = 'tr';
+// Tr.tagName = 'tr';
+// Tr.defaultChild = 'td'
+// Tr.allowedChildren = [Td];
+// Tr.scope = Parchment.Scope.BLOCK_BLOT;
+// Quill.register(Tr);
+//
+// class Tbody extends extendedContainer {
+//   static create(value) {
+//     let node = super.create(value);
+//     let rows = 0;
+//
+//     if(typeof value === 'string' && value.includes('newtable_')) {
+//       let value_arr = value.split('_');
+//       rows = value_arr[1];
+//     } else {
+//       alert('error');
+//     }
+//
+//     for (let r = 0; r < rows; r++) {
+//       let tr = Tr.create(value);
+//       node.appendChild(tr);
+//     }
+//
+//     return node;
+//   }
+// }
+//
+// Tbody.blotName = 'tbody';
+// Tbody.tagName = 'tbody';
+// Tbody.defaultChild = 'tr'
+// Tbody.allowedChildren = [Tr];
+// Tbody.scope = Parchment.Scope.BLOCK_BLOT;
+// Quill.register(Tbody);
+//
+// class Table extends extendedContainer {
+//   static create(value) {
+//     let node = super.create(value);
+//
+//     let tbody = Tbody.create(value);
+//     node.appendChild(tbody);
+//
+//     // if(value === true || value.includes('newtable_')) {
+//     //   node = this.generate_empty_table(value, node);
+//     // } else if(typeof value === 'string' || value.includes('td')) {
+//     //   node.innerHTML = value;
+//     // }
+//
+//     return node;
+//   }
+//
+//   // static generate_empty_table(value, node) {
+//   //   let cols = 5;
+//   //   let rows = 5;
+//   //   if(typeof value === 'string' && value.includes('newtable_')) {
+//   //     let value = value.split('_');
+//   //     rows = value[1];
+//   //     cols = value[2];
+//   //   } else {
+//   //     rows = prompt('Number of rows?', cols);
+//   //     cols = prompt('Number of cols?', cols);
+//   //   }
+//   //   value = [];
+//   //   for (let r = 0; r < rows; r++) {
+//   //     value[r] = [];
+//   //     for (let c = 0; c < cols; c++) {
+//   //       value[r].push("");
+//   //     }
+//   //   }
+//   //   var tbody = document.createElement('tbody');
+//   //   value.forEach(row => {
+//   //     var tr = document.createElement('tr');
+//   //     tbody.appendChild(tr);
+//   //     row.forEach(cell => {
+//   //       let td = document.createElement('td');
+//   //       td.innerText = cell;
+//   //       tr.appendChild(td);
+//   //     })
+//   //   })
+//   //   node.appendChild(tbody);
+//   //   return node;
+//   // }
+// }
+//
+// Table.blotName = 'table';
+// Table.tagName = 'table';
+// Table.defaultChild = 'tbody'
+// Table.allowedChildren = [Tbody];
+// Table.scope = Parchment.Scope.BLOCK_BLOT;
+// Quill.register(Table);
 
 // //
 // //
