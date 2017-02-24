@@ -40,10 +40,10 @@
   <script>
     let maxRows = 10;
     let maxCols = 5;
-    let embedTableOptions = [];
+    let tableOptions = [];
     for (let r = 1; r <= maxRows; r++) {
       for (let c = 1; c <= maxCols; c++) {
-        embedTableOptions.push('newtable_' + r + '_' + c);
+        tableOptions.push('newtable_' + r + '_' + c);
       }
     }
 
@@ -51,8 +51,8 @@
       // Extended toolbar buttons
       ['placeholder'],
       ['if'],
-      [{ 'embed_table': embedTableOptions }],
-      // ['table'],
+      [{ 'table': tableOptions }],
+      // [{ 'embed_table': tableOptions }],
       // Extended toolbar buttons
 
       ['bold', 'italic', 'underline', 'strike'],
@@ -96,7 +96,8 @@
       theme: 'snow'
     });
 
-    let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":{"embed_table":"<tbody><tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td></tr><tr><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td></tr></tbody>"}},{"insert":"\n"}]}
+    // let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":{"table":"<tbody><tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td></tr><tr><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td></tr></tbody>"}},{"insert":"\n"}]}
+    let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":{"table":"newtable_5_5"}}]}
     quill.setContents(delta);
 
   </script>

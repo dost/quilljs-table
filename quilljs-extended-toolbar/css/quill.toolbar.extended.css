@@ -57,7 +57,7 @@ button.ql-embed_table::after {
 }
 
 .ql-picker.ql-table .ql-picker-label, .ql-picker.ql-embed_table .ql-picker-label {
-  padding: 0px 10px;
+  padding: 0px 3px;
 }
 
 .ql-picker.ql-table .ql-picker-label::before {
