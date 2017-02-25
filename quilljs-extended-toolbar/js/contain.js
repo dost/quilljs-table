@@ -67,6 +67,7 @@ class TableRow extends Container {
   static create(value) {
     let tagName = 'tr';
     let node = super.create(tagName);
+    node.setAttribute('row_id', value);
     return node;
   }
 
@@ -75,7 +76,8 @@ class TableRow extends Container {
     let next = this.next;
     if (next != null && next.prev === this &&
         next.statics.blotName === this.statics.blotName &&
-        next.domNode.tagName === this.domNode.tagName) {
+        next.domNode.tagName === this.domNode.tagName &&
+        next.domNode.getAttribute('row_id') === this.domNode.getAttribute('row_id')) {
       next.moveChildren(this);
       next.remove();
     }
@@ -98,6 +100,7 @@ class Table extends Container {
   static create(value) {
     let tagName = 'table';
     let node = super.create(tagName);
+    node.setAttribute('table_id', value);
     return node;
   }
 
@@ -106,7 +109,8 @@ class Table extends Container {
     let next = this.next;
     if (next != null && next.prev === this &&
         next.statics.blotName === this.statics.blotName &&
-        next.domNode.tagName === this.domNode.tagName) {
+        next.domNode.tagName === this.domNode.tagName &&
+        next.domNode.getAttribute('table_id') === this.domNode.getAttribute('table_id')) {
       next.moveChildren(this);
       next.remove();
     }
@@ -129,7 +133,10 @@ Quill.register(Table);
 class TableCell extends ContainBlot {
   static create(value) {
     let node = super.create('td');
-    node.setAttribute('id', value);
+    let ids = value.split('|')
+    node.setAttribute('table_id', ids[0]);
+    node.setAttribute('row_id', ids[1]);
+    node.setAttribute('cell_id', ids[2]);
     return node;
   }
 
@@ -139,7 +146,10 @@ class TableCell extends ContainBlot {
 
   formats() {
     // We don't inherit from FormatBlot
-    return { [this.statics.blotName]: this.domNode.getAttribute('id') }
+    return { [this.statics.blotName]: 
+      this.domNode.getAttribute('table_id') + '|' +
+      this.domNode.getAttribute('row_id') + '|' +
+      this.domNode.getAttribute('cell_id') }
   }
 
   optimize() {
@@ -147,11 +157,9 @@ class TableCell extends ContainBlot {
 
     // Add parent TR and TABLE when missing
     let parent = this.parent;
-    console.log('optimizing parent for TD:')
-    console.log(parent)
     if (parent != null && parent.statics.blotName != 'tr') {
-      let table = Parchment.create('table')
-      let tr = Parchment.create('tr')
+      let table = Parchment.create('table', this.domNode.getAttribute('table_id'));
+      let tr = Parchment.create('tr', this.domNode.getAttribute('row_id'));
       table.appendChild(tr);
       tr.appendChild(this);
       parent.appendChild(table);
@@ -162,11 +170,10 @@ class TableCell extends ContainBlot {
     if (next != null && next.prev === this &&
         next.statics.blotName === this.statics.blotName &&
         next.domNode.tagName === this.domNode.tagName &&
-        next.domNode.getAttribute('id') === this.domNode.getAttribute('id')) {
+        next.domNode.getAttribute('cell_id') === this.domNode.getAttribute('cell_id')) {
       next.moveChildren(this);
       next.remove();
     }
-    console.log("End of TD optimize")
   }
 }
 
@@ -182,4 +189,4 @@ TableRow.allowedChildren = [TableCell];
 
 
 
-Quill.debug('info');
+Quill.debug('debug');
