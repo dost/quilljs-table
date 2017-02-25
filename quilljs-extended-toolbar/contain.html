@@ -43,7 +43,7 @@
     let toolbarOptions = [
       // Extended toolbar buttons
       ['contain'],
-      // ['table'],
+       ['td'],
       // Extended toolbar buttons
 
       ['bold', 'italic', 'underline', 'strike'],
@@ -75,14 +75,25 @@
       theme: 'snow'
     });
 
-    let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":" text\n\ncontainer text"},{"insert":"\n","attributes":{"contain":"CONTAIN"}}]}
+    let delta = {"ops":[{"insert":"Hello World!\n"},{"insert":"bla\n","attributes":{"contain":"CONTAIN"}},{"insert":"Hello World!\n","attributes":{"td":"first-cell"}},{"insert":"sadf"},{"insert":"\n","attributes":{"td":"second-cell"}},{"insert":"\nnext\n", "attributes":{}},{"insert":"Hello World!\n","attributes":{"td":"third-cell"}},{"insert":"sadf"},{"insert":"\n","attributes":{"td":"third-cell"}}]}
+//    let delta = {"ops":[{"insert":"sadf"},{"insert":"\n","attributes":{"td":"third-cell"}}]}
     quill.setContents(delta);
 
   </script>
-  DELTA:
-  <textarea id='output' style='width:100%;height:200px'></textarea>
+  <br><br>
+  <div style="float: left; width: 48%;">
+    <p>DELTA:</p>
+    <textarea id='output_delta' style='width:100%; height:200px; padding: 3px;'></textarea>
+  </div>
+  <div style="float: right; width: 48%;">
+    <p>HTML</p>
+    <textarea id='output_html' style='width:100%; height:200px; padding: 3px;'></textarea>
+  </div>
+  <div style="clear: both"></div>
+
   <script>
-    setInterval(function(){document.getElementById("output").value=JSON.stringify(quill.editor.getDelta())}, 500);  
+    setInterval( function() { document.getElementById("output_delta").value=JSON.stringify(quill.editor.getDelta()) }, 500);
+    setInterval( function() { document.getElementById("output_html").value=quill.root.innerHTML }, 500);
   </script>
 </body>
 </html>
