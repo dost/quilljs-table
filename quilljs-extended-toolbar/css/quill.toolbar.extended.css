@@ -35,13 +35,17 @@
   content: "<IF>";
 }
 
-.ql-contain:after, .contain:after {
+.contain:after, {
   content: "<WRAP>";
 }
 
 button.ql-table::after {
   content: "<TABLE>";
 }
+button.ql-td::after {
+  content: "<TABLE>";
+}
+
 
 button.ql-embed_table::after {
   content: "<EMBED TABLE>";
@@ -50,6 +54,7 @@ button.ql-embed_table::after {
 .ql-picker.ql-table .ql-picker-label::before {
   content: "<TABLE>";
 }
+
 
 .ql-picker.ql-embed_table .ql-picker-label::before {
   content: "<EMBED TABLE>";
