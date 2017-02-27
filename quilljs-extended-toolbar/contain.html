@@ -79,6 +79,26 @@
       theme: 'snow'
     });
 
+    // Adding random IDs for clipboard table
+    let table_id = TableTrick.random_id();
+    let row_id = TableTrick.random_id();
+    quill.clipboard.addMatcher('TABLE', function(node, delta) {
+      console.log(node)
+      table_id = TableTrick.random_id();
+      return delta;
+    });
+    quill.clipboard.addMatcher('TR', function(node, delta) {
+      console.log(node)
+      row_id = TableTrick.random_id();
+      return delta;
+    });
+    quill.clipboard.addMatcher('TD', function(node, delta) {
+      console.log(node)
+      let cell_id = TableTrick.random_id();
+      return delta.compose(new Delta().retain(delta.length(), { td: table_id+'|'+row_id+'|'+cell_id }));
+    });
+
+
     let delta = {"ops":[
     {"insert":"tables:\n"},
     {"insert":"000"},{"insert":"\n","attributes":{"td":"t0|r0|c0"}},
@@ -90,6 +110,7 @@
     {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
     ]}
     quill.setContents(delta);
+
 
   </script>
   <br><br>

@@ -251,7 +251,4 @@ Quill.register(TableCell);
 TableRow.allowedChildren = [TableCell];
 
 
-
-
-
 Quill.debug('debug');
