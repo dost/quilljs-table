@@ -79,7 +79,7 @@
       theme: 'snow'
     });
 
-    // Adding random IDs for clipboard table
+    // Adding random IDs for clipboard table - is parsing always sequential?
     let table_id = TableTrick.random_id();
     let row_id = TableTrick.random_id();
     quill.clipboard.addMatcher('TABLE', function(node, delta) {

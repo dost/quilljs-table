@@ -1,3 +1,7 @@
+.ql-container .ql-editor {
+    height: 500px;
+}
+
 #editor x-placeholder, placeholder {
   background: yellow;
 }
