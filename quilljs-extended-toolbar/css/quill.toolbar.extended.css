@@ -18,6 +18,7 @@
 
 #editor table {
   width: 100%;
+  border-collapse: collapse;
 }
 
 #editor table td {
