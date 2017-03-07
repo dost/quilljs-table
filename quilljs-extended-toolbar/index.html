@@ -69,7 +69,7 @@
       ['placeholder'],
       ['if'],
       // [{ 'table': tableOptions }],
-      // [{ 'embed_table': tableOptions }],
+      [{ 'embed_table': tableOptions }],
       // Extended toolbar buttons
 
       ['bold', 'italic', 'underline', 'strike'],
@@ -113,57 +113,57 @@
       theme: 'snow'
     });
 
-    // let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":{"table":"<tbody><tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td></tr><tr><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td></tr></tbody>"}},{"insert":"\n"}]}
+    let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":{"embed_table":"<tbody><tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td></tr><tr><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td></tr></tbody>"}},{"insert":"\n"}]}
     // let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"},{"insert":{"table":"newtable_10_10"}}]}
     // let delta = {"ops":[{"insert":"Hello World!\nSome initial "},{"insert":"bold","attributes":{"bold":true}},{"insert":" text\n\n"}]}
-    let delta = { "ops" : [{
-    	"insert": "Description",
-    	"attributes": {
-    		"who": 28167,
-    		"bold": true
-    	}
-    }, {
-    	"insert": "\n",
-    	"attributes": {
-    		"who": 47194,
-    		"align": "center",
-    		"table-cell": {
-    			"cellId": "table-cell-zxwscqtywssf",
-    			"rowId": "table-row-oksghsnmwiwc",
-    			"id": "table-id-tpbprwzxdlvn"
-    		}
-    	}
-    }, {
-    	"insert": "Owner",
-    	"attributes": {
-    		"who": 28167
-    	}
-    }, {
-    	"insert": "\n",
-    	"attributes": {
-    		"who": 28167,
-    		"table-cell": {
-    			"cellId": "table-cell-epkzpvnrkoeu",
-    			"rowId": "table-row-oksghsnmwiwc",
-    			"id": "table-id-tpbprwzxdlvn"
-    		}
-    	}
-    }, {
-    	"insert": "Cell 3",
-    	"attributes": {
-    		"who": 6939
-    	}
-    }, {
-    	"insert": "\n",
-    	"attributes": {
-    		"who": 28167,
-    		"table-cell": {
-    			"cellId": "table-cell-aerxfqxowhfd",
-    			"rowId": "table-row-oksghsnmwiwc",
-    			"id": "table-id-tpbprwzxdlvn"
-    		}
-    	}
-    }] }
+    // let delta = { "ops" : [{
+    // 	"insert": "Description",
+    // 	"attributes": {
+    // 		"who": 28167,
+    // 		"bold": true
+    // 	}
+    // }, {
+    // 	"insert": "\n",
+    // 	"attributes": {
+    // 		"who": 47194,
+    // 		"align": "center",
+    // 		"table-cell": {
+    // 			"cellId": "table-cell-zxwscqtywssf",
+    // 			"rowId": "table-row-oksghsnmwiwc",
+    // 			"id": "table-id-tpbprwzxdlvn"
+    // 		}
+    // 	}
+    // }, {
+    // 	"insert": "Owner",
+    // 	"attributes": {
+    // 		"who": 28167
+    // 	}
+    // }, {
+    // 	"insert": "\n",
+    // 	"attributes": {
+    // 		"who": 28167,
+    // 		"table-cell": {
+    // 			"cellId": "table-cell-epkzpvnrkoeu",
+    // 			"rowId": "table-row-oksghsnmwiwc",
+    // 			"id": "table-id-tpbprwzxdlvn"
+    // 		}
+    // 	}
+    // }, {
+    // 	"insert": "Cell 3",
+    // 	"attributes": {
+    // 		"who": 6939
+    // 	}
+    // }, {
+    // 	"insert": "\n",
+    // 	"attributes": {
+    // 		"who": 28167,
+    // 		"table-cell": {
+    // 			"cellId": "table-cell-aerxfqxowhfd",
+    // 			"rowId": "table-row-oksghsnmwiwc",
+    // 			"id": "table-id-tpbprwzxdlvn"
+    // 		}
+    // 	}
+    // }] }
     quill.setContents(delta);
 
   </script>

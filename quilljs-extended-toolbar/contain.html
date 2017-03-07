@@ -15,6 +15,7 @@
   <style>
     body {
       padding: 3%;
+      font-family: 'Helvetica Neue'
     }
   </style>
 
@@ -40,13 +41,12 @@
   <!-- Initialize Quill editor -->
   <script>
 
-
     let toolbarOptions = [
       // Extended toolbar buttons
       ['contain'],
-       ['td'],
-       [{'table': 'append-row'}],
-       [{'table': 'append-col'}],
+      ['td'],
+      [{'table': 'append-row'}],
+      [{'table': 'append-col'}],
       // Extended toolbar buttons
 
       ['bold', 'italic', 'underline', 'strike'],
@@ -80,14 +80,14 @@
 
 //    let delta = {"ops":[{"insert":"Hello World!\n"},{"insert":"bla\n","attributes":{"contain":"CONTAIN"}},{"insert":"Hello World!\n","attributes":{"td":"first-cell"}},{"insert":"sadf"},{"insert":"\n","attributes":{"td":"second-cell"}},{"insert":"\nnext\n", "attributes":{}},{"insert":"Hello World!\n","attributes":{"td":"third-cell"}},{"insert":"sadf"},{"insert":"\n","attributes":{"td":"third-cell"}}]}
     let delta = {"ops":[
-    {"insert":"tables:\n"},
-    {"insert":"000"},{"insert":"\n","attributes":{"td":"t0|r0|c0"}},
-    {"insert":"000 twice"},{"insert":"\n","attributes":{"td":"t0|r0|c0"}},
+      {"insert":"tables:\n"},
+      {"insert":"000"},{"insert":"\n","attributes":{"td":"t0|r0|c0"}},
+      {"insert":"000 twice"},{"insert":"\n","attributes":{"td":"t0|r0|c0"}},
 
-    {"insert":"100"},{"insert":"\n","attributes":{"td":"t1|r0|c0"}},
-    {"insert":"110"},{"insert":"\n","attributes":{"td":"t1|r1|c0"}},
-    {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
-    {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
+      {"insert":"100"},{"insert":"\n","attributes":{"td":"t1|r0|c0"}},
+      {"insert":"110"},{"insert":"\n","attributes":{"td":"t1|r1|c0"}},
+      {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
+      {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
     ]}
     quill.setContents(delta);
 
