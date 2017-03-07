@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="author" value="David Nekovář, http://smarlify.co">
-  <title>QuillJS - extended toolbar</title>
+  <meta name="author" value="Tom Doskocil, http://timepress.cz">
+  <title>QuillJS - Tables</title>
 
   <!-- Include the Quill snow theme -->
   <link href="../dist/quill.snow.css" rel="stylesheet">
@@ -31,7 +32,7 @@
   <!-- Create the editor container -->
   <div id="editor"></div>
 
-  <!-- Include the Quill library -->
+  <!-- Include the Quill library (either from CDN or local copy) -->
   <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
   <!--script src="../dist/quill.js"></script-->
 
@@ -44,9 +45,9 @@
     let toolbarOptions = [
       // Extended toolbar buttons
       ['contain'],
-      ['td'],
-      [{'table': 'append-row'}],
-      [{'table': 'append-col'}],
+      ['td'], // new table (cursor needs to be out of table)
+      [{'table': 'append-row'}], // cursor needs to be in the table
+      [{'table': 'append-col'}], // cursor needs to be in the table
       // Extended toolbar buttons
 
       ['bold', 'italic', 'underline', 'strike'],
@@ -78,7 +79,26 @@
       theme: 'snow'
     });
 
-//    let delta = {"ops":[{"insert":"Hello World!\n"},{"insert":"bla\n","attributes":{"contain":"CONTAIN"}},{"insert":"Hello World!\n","attributes":{"td":"first-cell"}},{"insert":"sadf"},{"insert":"\n","attributes":{"td":"second-cell"}},{"insert":"\nnext\n", "attributes":{}},{"insert":"Hello World!\n","attributes":{"td":"third-cell"}},{"insert":"sadf"},{"insert":"\n","attributes":{"td":"third-cell"}}]}
+    // Adding random IDs for clipboard table - is parsing always sequential?
+    let table_id = TableTrick.random_id();
+    let row_id = TableTrick.random_id();
+    quill.clipboard.addMatcher('TABLE', function(node, delta) {
+      console.log(node)
+      table_id = TableTrick.random_id();
+      return delta;
+    });
+    quill.clipboard.addMatcher('TR', function(node, delta) {
+      console.log(node)
+      row_id = TableTrick.random_id();
+      return delta;
+    });
+    quill.clipboard.addMatcher('TD', function(node, delta) {
+      console.log(node)
+      let cell_id = TableTrick.random_id();
+      return delta.compose(new Delta().retain(delta.length(), { td: table_id+'|'+row_id+'|'+cell_id }));
+    });
+
+
     let delta = {"ops":[
       {"insert":"tables:\n"},
       {"insert":"000"},{"insert":"\n","attributes":{"td":"t0|r0|c0"}},
@@ -91,15 +111,25 @@
     ]}
     quill.setContents(delta);
 
+
   </script>
   <br><br>
   <div style="float: left; width: 48%;">
-    <p>DELTA:</p>
+    <p>CURRENT DELTA:</p>
     <textarea id='output_delta' style='width:100%; height:200px; padding: 3px;'></textarea>
   </div>
   <div style="float: right; width: 48%;">
-    <p>HTML</p>
+    <p>CURRENT HTML:</p>
     <textarea id='output_html' style='width:100%; height:200px; padding: 3px;'></textarea>
+  </div>
+  <div style="clear: both"></div>
+  <div style="float: left; width: 48%;">
+    <p><a href='#' onclick="quill.setContents(JSON.parse(document.getElementById('input_delta').value));">LOAD DELTA: </a></p>
+    <textarea id='input_delta' style='width:100%; height:200px; padding: 3px;'></textarea>
+  </div>
+  <div style="float: right; width: 48%;">
+    <p><a href='#' onclick="quill.clipboard.dangerouslyPasteHTML(document.getElementById('input_html').value);">dangerously PASTE HTML:</a></p>
+    <textarea id='input_html' style='width:100%; height:200px; padding: 3px;'></textarea>
   </div>
   <div style="clear: both"></div>
 
@@ -107,5 +137,24 @@
     setInterval( function() { document.getElementById("output_delta").value=JSON.stringify(quill.editor.getDelta()) }, 500);
     setInterval( function() { document.getElementById("output_html").value=quill.root.innerHTML }, 500);
   </script>
+
+  <p>SAVED interesting testing deltas:</p>
+
+  <script>let container_test = {"ops":[{"insert":"Hello World!\nbla"},{"insert":"\n","attributes":{"contain":"CONTAIN"}},{"insert":"Hello World!"},{"insert":"\n","attributes":{"td":"first-cell|undefined|undefined"}},{"insert":"sadf"},{"insert":"\n","attributes":{"td":"second-cell|undefined|undefined"}},{"insert":"bla"},{"insert":"\n","attributes":{"contain":"CONTAIN"}},{"insert":"table left"},{"insert":"\n","attributes":{"td":"4udxtmrh7fk|o8gczyfgqni|c76kors0qeg","contain":"CONTAIN"}},{"insert":"table right"},{"insert":"\n","attributes":{"td":"4udxtmrh7fk|o8gczyfgqni|6jyp3g0cj7h","contain":"CONTAIN"}},{"insert":"sadfds"},{"insert":"\n","attributes":{"contain":"CONTAIN"}}]}</script>
+  <a href='#' onclick="quill.setContents(container_test);">load pure container</a><br/>
+
+  <script>let table_cells = {"ops":[
+    {"insert":"tables:\n"},
+    {"insert":"000"},{"insert":"\n","attributes":{"td":"t0|r0|c0"}},
+    {"insert":"000 twice"},{"insert":"\n","attributes":{"td":"t0|r0|c0"}},
+
+    {"insert":"100"},{"insert":"\n","attributes":{"td":"t1|r0|c0"}},
+    {"insert":"110"},{"insert":"\n","attributes":{"td":"t1|r1|c0"}},
+    {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
+    {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
+    ]}</script>
+  <a href='#' onclick="quill.setContents(table_cells);">load table cells</a><br/>
+
+
 </body>
 </html>
