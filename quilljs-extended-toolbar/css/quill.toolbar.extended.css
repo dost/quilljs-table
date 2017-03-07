@@ -1,5 +1,5 @@
 .ql-container .ql-editor {
-    height: 500px;
+    height: 300px;
 }
 
 #editor x-placeholder, placeholder {
@@ -42,33 +42,34 @@
 .ql-x-placeholder:after, .ql-placeholder:after { content: "<VAR>"; }
 .ql-x-if:after, .ql-if:after { content: "<IF>"; }
 button.ql-table::after { content: "<TABLE>"; }
+.ql-picker.ql-table .ql-picker-label::before { content: "<TABLE>"; }
+.ql-picker.ql-embed_table .ql-picker-label::before { content: "<EMBED TABLE>"; }
 button.ql-table[value="append-row"]::after { content: "ROWS+"; }
 button.ql-table[value="append-col"]::after { content: "COLS+"; }
 button.ql-td::after { content: "TABLE"; }
 button.ql-contain::after { content: "WRAP"; }
 button.ql-embed_table::after { content: "EMBED TABLE"; }
-.ql-picker.ql-table .ql-picker-label::before { content: "<TABLE>"; }
-.ql-picker.ql-embed_table .ql-picker-label::before { content: "<EMBED TABLE>"; }
+.ql-picker.ql-td .ql-picker-label::before { content: "TABLE"; }
 
-.ql-picker.ql-table, .ql-picker.ql-embed_table {
+.ql-picker.ql-table, .ql-picker.ql-embed_table, .ql-picker.ql-td {
   margin-right: -15px;
   font-size: 11px;
   font-weight: normal;
 }
 
-.ql-picker.ql-table svg, .ql-picker.ql-embed_table svg {
+.ql-picker.ql-table svg, .ql-picker.ql-embed_table svg, .ql-picker.ql-td svg {
   display: none;
 }
 
-.ql-picker.ql-table .ql-picker-label, .ql-picker.ql-embed_table .ql-picker-label {
+.ql-picker.ql-table .ql-picker-label, .ql-picker.ql-embed_table .ql-picker-label, .ql-picker.ql-td .ql-picker-label {
   padding: 0px 3px;
 }
 
-.ql-picker.ql-table .ql-picker-options, .ql-picker.ql-embed_table .ql-picker-options {
+.ql-picker.ql-table .ql-picker-options, .ql-picker.ql-embed_table .ql-picker-options, .ql-picker.ql-td .ql-picker-options {
   width: 190px;
 }
 
-.ql-picker.ql-table .ql-picker-item, .ql-picker.ql-embed_table .ql-picker-item {
+.ql-picker.ql-table .ql-picker-item, .ql-picker.ql-embed_table .ql-picker-item, .ql-picker.ql-td .ql-picker-item {
   display: block;
   float: left;
   width: 30px;
@@ -79,7 +80,7 @@ button.ql-embed_table::after { content: "EMBED TABLE"; }
   margin: 1px;
 }
 
-.ql-picker.ql-embed_table .ql-picker-item:hover {
+.ql-picker.ql-table .ql-picker-item, .ql-picker.ql-embed_table .ql-picker-item:hover, .ql-picker.ql-td .ql-picker-item:hover {
   background: lightgrey;
 }
 

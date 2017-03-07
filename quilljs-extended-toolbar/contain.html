@@ -41,13 +41,21 @@
 
   <!-- Initialize Quill editor -->
   <script>
+    let maxRows = 10;
+    let maxCols = 5;
+    let tableOptions = [];
+    for (let r = 1; r <= maxRows; r++) {
+      for (let c = 1; c <= maxCols; c++) {
+        tableOptions.push('newtable_' + r + '_' + c);
+      }
+    }
 
     let toolbarOptions = [
       // Extended toolbar buttons
       ['contain'],
-      ['td'], // new table (cursor needs to be out of table)
-      [{'table': 'append-row'}], // cursor needs to be in the table
-      [{'table': 'append-col'}], // cursor needs to be in the table
+      [{ 'td': tableOptions }], // new table (cursor needs to be out of table)
+      [{ 'table': 'append-row' }], // cursor needs to be in the table
+      [{ 'table': 'append-col' }], // cursor needs to be in the table
       // Extended toolbar buttons
 
       ['bold', 'italic', 'underline', 'strike'],

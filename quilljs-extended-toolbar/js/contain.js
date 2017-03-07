@@ -189,8 +189,9 @@ Quill.register(Table);
 class TableCell extends ContainBlot {
 
   static create(value) {
-      console.log(value)
-    if(value==true) {
+    console.log(value)
+    let old_value = value;
+    if(value === true || value.includes('newtable_')) {
       value = TableTrick.random_id()+'|'+TableTrick.random_id()+'|'+TableTrick.random_id();
     }
     let tagName = 'td';
@@ -199,7 +200,46 @@ class TableCell extends ContainBlot {
     node.setAttribute('table_id', ids[0]);
     node.setAttribute('row_id', ids[1]);
     node.setAttribute('cell_id', ids[2]);
-    return node;      
+    if(old_value.includes('newtable_')) {
+      node = this.generate_empty_table(old_value, node);
+    }
+    return node;
+  }
+
+  static generate_empty_table(value, node) {
+    let cols = 5;
+    let rows = 5;
+    if(typeof value === 'string' && value.includes('newtable_')) {
+      value = value.split('_');
+      rows = value[1];
+      cols = value[2];
+    } else {
+      rows = prompt('Number of rows?', cols);
+      cols = prompt('Number of cols?', cols);
+    }
+    value = [];
+    for (let r = 0; r < rows; r++) {
+      value[r] = [];
+      for (let c = 0; c < cols; c++) {
+        value[r].push("");
+      }
+    }
+
+    alert("todo: add " + (rows - 1) + " rows and " + (cols - 1) + " cols (total: " + rows + "x" + cols + ")");
+
+    // var tbody = document.createElement('tbody');
+    // value.forEach(row => {
+    //   var tr = document.createElement('tr');
+    //   tbody.appendChild(tr);
+    //   row.forEach(cell => {
+    //     let td = document.createElement('td');
+    //     td.innerText = cell;
+    //     tr.appendChild(td);
+    //   })
+    // })
+    // node.appendChild(tbody);
+
+    return node;
   }
 
   format() {
@@ -208,7 +248,7 @@ class TableCell extends ContainBlot {
 
   formats() {
     // We don't inherit from FormatBlot
-    return { [this.statics.blotName]: 
+    return { [this.statics.blotName]:
       this.domNode.getAttribute('table_id') + '|' +
       this.domNode.getAttribute('row_id') + '|' +
       this.domNode.getAttribute('cell_id') }
