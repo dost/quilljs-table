@@ -123,11 +123,11 @@
   </script>
   <br><br>
   <div style="float: left; width: 48%;">
-    <p>CURRENT DELTA:</p>
+    <p>CURRENT DELTA: <a href='#' onclick="quill.setContents(JSON.parse(document.getElementById('output_delta').value));">reload</a></p>
     <textarea id='output_delta' style='width:100%; height:200px; padding: 3px;'></textarea>
   </div>
   <div style="float: right; width: 48%;">
-    <p>CURRENT HTML:</p>
+    <p>CURRENT HTML: <a href='#' onclick="quill.clipboard.dangerouslyPasteHTML(document.getElementById('output_html').value);">reload</a></p>
     <textarea id='output_html' style='width:100%; height:200px; padding: 3px;'></textarea>
   </div>
   <div style="clear: both"></div>

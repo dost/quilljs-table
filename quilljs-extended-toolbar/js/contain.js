@@ -1,4 +1,5 @@
 let Container = Quill.import('blots/container');
+let Scroll = Quill.import('blots/scroll');
 let Inline = Quill.import('blots/inline');
 let Block = Quill.import('blots/block');
 let Delta = Quill.import('delta');
@@ -152,6 +153,7 @@ class Table extends Container {
       let blot = TableTrick.append_col();
       return blot;
     } else if(value.includes('newtable_')) {
+      let node = null;
       let sizes = value.split('_');
       let row_count = Number.parseInt(sizes[1])
       let col_count = Number.parseInt(sizes[2])
@@ -166,17 +168,22 @@ class Table extends Container {
           value = table_id+'|'+row_id+'|'+cell_id;
           let td = Parchment.create('td', value);
           tr.appendChild(td);
-          let p = Parchment.create('block', 'bla');
+          let p = Parchment.create('block');
           td.appendChild(p);
+          let br = Parchment.create('break');
+          p.appendChild(br);
+          node = p;
         }
       }
       let leaf = quill.getLeaf(quill.getSelection()['index']);
       let blot = leaf[0];
-      console.log(blot.parent.parent)
-      blot.parent.parent.insertBefore(table);
-
-      console.log(table)
-      return table;
+      let top_branch = null;
+      for(;blot!=null && !(blot instanceof Container || blot instanceof Scroll);) {
+        top_branch = blot
+        blot=blot.parent;
+      }
+      blot.insertBefore(table, top_branch);
+      return node;
     } else {
       // normal table
       let tagName = 'table';
@@ -197,6 +204,7 @@ class Table extends Container {
       next.moveChildren(this);
       next.remove();
     }
+    console.log(quill.editor.getDelta())
     console.log("OPTIMIZE end")
   }
 
@@ -275,5 +283,9 @@ TableCell.allowedChildren = [Block, BlockEmbed, Container];
 Quill.register(TableCell);
 TableRow.allowedChildren = [TableCell];
 
+Container.order = [
+  'list', 'contain',   // Must be lower
+  'td', 'tr', 'table'              // Must be higher
+];
 
 Quill.debug('debug');
