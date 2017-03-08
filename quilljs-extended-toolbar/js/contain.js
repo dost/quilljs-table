@@ -151,6 +151,32 @@ class Table extends Container {
     } else if(value == 'append-col') {
       let blot = TableTrick.append_col();
       return blot;
+    } else if(value.includes('newtable_')) {
+      let sizes = value.split('_');
+      let row_count = Number.parseInt(sizes[1])
+      let col_count = Number.parseInt(sizes[2])
+      let table_id = TableTrick.random_id();
+      let table = Parchment.create('table', table_id);
+      for (var ri = 0; ri < row_count; ri++) {
+        let row_id = TableTrick.random_id();
+        let tr = Parchment.create('tr', row_id);
+        table.appendChild(tr);
+        for (var ci = 0; ci < col_count; ci++) {
+          let cell_id = TableTrick.random_id();
+          value = table_id+'|'+row_id+'|'+cell_id;
+          let td = Parchment.create('td', value);
+          tr.appendChild(td);
+          let p = Parchment.create('block', 'bla');
+          td.appendChild(p);
+        }
+      }
+      let leaf = quill.getLeaf(quill.getSelection()['index']);
+      let blot = leaf[0];
+      console.log(blot.parent.parent)
+      blot.parent.parent.insertBefore(table);
+
+      console.log(table)
+      return table;
     } else {
       // normal table
       let tagName = 'table';
@@ -161,6 +187,7 @@ class Table extends Container {
   }
 
   optimize() {
+    console.log("OPTIMIZE start")
     super.optimize();
     let next = this.next;
     if (next != null && next.prev === this &&
@@ -170,6 +197,7 @@ class Table extends Container {
       next.moveChildren(this);
       next.remove();
     }
+    console.log("OPTIMIZE end")
   }
 
 }
@@ -190,55 +218,12 @@ class TableCell extends ContainBlot {
 
   static create(value) {
     console.log(value)
-    let old_value = value;
-    if(value === true || value.includes('newtable_')) {
-      value = TableTrick.random_id()+'|'+TableTrick.random_id()+'|'+TableTrick.random_id();
-    }
     let tagName = 'td';
     let node = super.create(tagName);
     let ids = value.split('|')
     node.setAttribute('table_id', ids[0]);
     node.setAttribute('row_id', ids[1]);
     node.setAttribute('cell_id', ids[2]);
-    if(old_value.includes('newtable_')) {
-      node = this.generate_empty_table(old_value, node);
-    }
-    return node;
-  }
-
-  static generate_empty_table(value, node) {
-    let cols = 5;
-    let rows = 5;
-    if(typeof value === 'string' && value.includes('newtable_')) {
-      value = value.split('_');
-      rows = value[1];
-      cols = value[2];
-    } else {
-      rows = prompt('Number of rows?', cols);
-      cols = prompt('Number of cols?', cols);
-    }
-    value = [];
-    for (let r = 0; r < rows; r++) {
-      value[r] = [];
-      for (let c = 0; c < cols; c++) {
-        value[r].push("");
-      }
-    }
-
-    alert("todo: add " + (rows - 1) + " rows and " + (cols - 1) + " cols (total: " + rows + "x" + cols + ")");
-
-    // var tbody = document.createElement('tbody');
-    // value.forEach(row => {
-    //   var tr = document.createElement('tr');
-    //   tbody.appendChild(tr);
-    //   row.forEach(cell => {
-    //     let td = document.createElement('td');
-    //     td.innerText = cell;
-    //     tr.appendChild(td);
-    //   })
-    // })
-    // node.appendChild(tbody);
-
     return node;
   }
 
