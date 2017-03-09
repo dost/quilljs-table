@@ -1,12 +1,12 @@
 # QuillJS table
 
-Test lab for creating `TABLE` functionality in Quilljs using Containers.
+Test lab for creating `TABLE` functionality in QuillJS using Containers.
 
 Code of quill is included in project so we can easily play with it in our tests.
 
 ## Run
 
-Try by opening `quilljs-extended-toolbar/contain.html` in a browser.
+Try by opening `quilljs-table/index.html` in a browser.
 
 ## Aim of this project
 
@@ -28,7 +28,7 @@ It is early stage so there is a lot of issues with current state.
 Still there are some worth to mention which should be dealt with.
 
 * Lists (number or bullet) in cell upon enter loose list format on previous line but keeps it on actual.
-* Delete and backspace behaviour on tables should be either disabled or should have some well defined behavior. Now it is pretty easy to destroy table in ugly way.
+* Delete and backspace behavior on tables should be either disabled or should have some well defined behavior. Now it is pretty easy to destroy table in ugly way.
 * Definition of TableTrick is hacked in just to test if adding of rows and cols is easily possible - which is. Should be done differently so quill doesn't throw exception (it continues to work).
 * Undo/History breaks badly with cell deletions (disabled backspace could solve this).
 * When loading delta of nested container in table cell, nested container loose format.
