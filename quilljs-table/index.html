@@ -7,10 +7,10 @@
   <title>QuillJS - Tables</title>
 
   <!-- Include the Quill snow theme -->
-  <link href="../dist/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
 
   <!-- Include the Quill extended toolbar CSS -->
-  <link href="css/quill.toolbar.extended.css" rel="stylesheet">
+  <link href="css/quill.table.css" rel="stylesheet">
 
   <!-- Example page styles -->
   <style>
@@ -37,7 +37,7 @@
   <!--script src="../dist/quill.js"></script-->
 
   <!-- Include the Quill extended toolbar JS -->
-  <script src="js/contain.js"></script>
+  <script src="js/quill.table.js"></script>
 
   <!-- Initialize Quill editor -->
   <script>
@@ -119,7 +119,6 @@
     ]}
     quill.setContents(delta);
 
-
   </script>
   <br><br>
   <div style="float: left; width: 48%;">
@@ -162,7 +161,6 @@
     {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
     ]}</script>
   <a href='#' onclick="quill.setContents(table_cells);">load table cells</a><br/>
-
 
 </body>
 </html>
