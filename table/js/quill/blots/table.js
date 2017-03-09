@@ -41,4 +41,5 @@ Table.scope = Parchment.Scope.BLOCK_BLOT;
 Table.defaultChild = 'tr';
 Table.allowedChildren = [TableRow];
 
+
 export default Table

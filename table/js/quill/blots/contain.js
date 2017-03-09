@@ -47,4 +47,5 @@ ContainBlot.scope = Parchment.Scope.BLOCK_BLOT;
 ContainBlot.defaultChild = 'block';
 ContainBlot.allowedChildren = [Block, BlockEmbed, Container];
 
+
 export default ContainBlot;
