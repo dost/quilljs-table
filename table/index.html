@@ -8,7 +8,7 @@
   <link href="../dist/quill.snow.css" rel="stylesheet">
 
   <!-- Include the Quill extended toolbar CSS -->
-  <link href="css/table.css" rel="stylesheet">
+  <link href="css/quill.table.css" rel="stylesheet">
 
   <!-- Example page styles -->
   <style>
@@ -29,16 +29,11 @@
   <!-- Create the editor container -->
   <div id="editor"></div>
 
-  <!-- Include the Quill library (either from CDN or local copy) -->
-  <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
-  <!--script src="../dist/quill.js"></script-->
-
-  <!-- Include the Quill extended toolbar JS -->
-  <script src="js/quill/quill_table.js"></script>
+  <!-- Include the Quill library -->
+  <script src="../dist/quill.js"></script>
 
   <!-- Initialize Quill editor -->
   <script>
-
 
     let toolbarOptions = [
       // Extended toolbar buttons
@@ -72,30 +67,39 @@
       modules: {
         toolbar: {
           container: toolbarOptions,
+          handlers: {
+            'table': function(value) {
+              this.quill.format('table', { value: value, quill: this.quill });
+            }
+          }
         }
       },
       theme: 'snow'
     });
 
+    // ~ TableTrick random_id()
+    function random_id() {
+      return Math.random().toString(36).slice(2)
+    }
+
     // Adding random IDs for clipboard table - is parsing always sequential?
-    let table_id = TableTrick.random_id();
-    let row_id = TableTrick.random_id();
+    let table_id = random_id();
+    let row_id = random_id();
     quill.clipboard.addMatcher('TABLE', function(node, delta) {
       console.log(node)
-      table_id = TableTrick.random_id();
+      table_id = random_id();
       return delta;
     });
     quill.clipboard.addMatcher('TR', function(node, delta) {
       console.log(node)
-      row_id = TableTrick.random_id();
+      row_id = random_id();
       return delta;
     });
     quill.clipboard.addMatcher('TD', function(node, delta) {
       console.log(node)
-      let cell_id = TableTrick.random_id();
+      let cell_id = random_id();
       return delta.compose(new Delta().retain(delta.length(), { td: table_id+'|'+row_id+'|'+cell_id }));
     });
-
 
     let delta = {"ops":[
     {"insert":"tables:\n"},
@@ -107,8 +111,8 @@
     {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
     {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
     ]}
-    quill.setContents(delta);
 
+    quill.setContents(delta);
 
   </script>
   <br><br>
@@ -152,7 +156,6 @@
     {"insert":"111"},{"insert":"\n","attributes":{"td":"t1|r1|c1"}},
     ]}</script>
   <a href='#' onclick="quill.setContents(table_cells);">load table cells</a><br/>
-
 
 </body>
 </html>

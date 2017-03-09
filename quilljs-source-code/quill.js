@@ -83,7 +83,6 @@ Quill.register({
 
   'formats/image': Image,
   'formats/video': Video,
-
   'formats/list/item': ListItem,
 
   'modules/formula': Formula,
