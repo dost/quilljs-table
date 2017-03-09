@@ -1,15 +1,16 @@
-let Container = Quill.import('blots/container');
-let Block = Quill.import('blots/block');
-let Parchment = Quill.import('parchment');
-let BlockEmbed = Quill.import('blots/block/embed');
+import Parchment from 'parchment';
+import Container from './container';
+import ContainBlot from './contain';
+import Block, { BlockEmbed } from './block';
+import TableTrick from './table_trick';
 
 
 class TableCell extends ContainBlot {
 
   static create(value) {
-      console.log(value)
-    if(value==true) {
-      value = TableTrick.random_id()+'|'+TableTrick.random_id()+'|'+TableTrick.random_id();
+    console.log(value) // eslint-disable-line
+    if(value == true) {
+      value = TableTrick.randomId()+'|'+TableTrick.randomId()+'|'+TableTrick.randomId();
     }
     let tagName = 'td';
     let node = super.create(tagName);
@@ -17,7 +18,7 @@ class TableCell extends ContainBlot {
     node.setAttribute('table_id', ids[0]);
     node.setAttribute('row_id', ids[1]);
     node.setAttribute('cell_id', ids[2]);
-    return node;      
+    return node;
   }
 
   format() {
@@ -26,7 +27,7 @@ class TableCell extends ContainBlot {
 
   formats() {
     // We don't inherit from FormatBlot
-    return { [this.statics.blotName]: 
+    return { [this.statics.blotName]:
       this.domNode.getAttribute('table_id') + '|' +
       this.domNode.getAttribute('row_id') + '|' +
       this.domNode.getAttribute('cell_id') }
@@ -58,6 +59,7 @@ class TableCell extends ContainBlot {
       next.remove();
     }
   }
+
 }
 
 TableCell.blotName = 'td';

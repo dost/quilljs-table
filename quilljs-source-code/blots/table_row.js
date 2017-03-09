@@ -1,9 +1,10 @@
-let Container = Quill.import('blots/container');
-let Parchment = Quill.import('parchment');
-let TableCell = Quill.import('table_cell');
+import Parchment from 'parchment';
+import Container from './container';
+import TableCell from './table_cell';
 
 
 class TableRow extends Container {
+
   static create(value) {
     let tagName = 'tr';
     let node = super.create(tagName);

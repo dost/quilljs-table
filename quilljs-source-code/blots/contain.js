@@ -1,10 +1,11 @@
-let Container = Quill.import('blots/container');
-let Block = Quill.import('blots/block');
-let Parchment = Quill.import('parchment');
-let BlockEmbed = Quill.import('blots/block/embed');
+import Parchment from 'parchment';
+import Container from './container';
+import Block, { BlockEmbed } from './block';
+
 
 class ContainBlot extends Container {
-  static create(value) {
+
+  static create() {
     let tagName = 'contain';
     let node = super.create(tagName);
     return node;
@@ -12,9 +13,9 @@ class ContainBlot extends Container {
 
   insertBefore(blot, ref) {
     if (blot.statics.blotName == this.statics.blotName) {
-      console.log('############################ Not sure this is clean:')
-      console.log(blot)
-      console.log(blot.children.head)
+      console.log('############################ Not sure this is clean:') // eslint-disable-line
+      console.log(blot) // eslint-disable-line
+      console.log(blot.children.head) // eslint-disable-line
       super.insertBefore(blot.children.head, ref);
     } else {
       super.insertBefore(blot, ref);
@@ -39,6 +40,7 @@ class ContainBlot extends Container {
     if (target.parent == null) return;
     super.replace(target)
   }
+
 }
 
 ContainBlot.blotName = 'contain';
@@ -46,5 +48,6 @@ ContainBlot.tagName = 'contain';
 ContainBlot.scope = Parchment.Scope.BLOCK_BLOT;
 ContainBlot.defaultChild = 'block';
 ContainBlot.allowedChildren = [Block, BlockEmbed, Container];
+
 
 export default ContainBlot;

@@ -1,5 +1,5 @@
-.ql-container .ql-editor {
-    height: 500px;
+#editor .ql-editor {
+  height: 300px;
 }
 
 #editor x-contain, contain {
@@ -18,25 +18,17 @@
   height: 25px;
 }
 
-.ql-table {
+button.ql-table::after { content: "TABLE"; }
+.ql-picker.ql-table .ql-picker-label::before { content: "TABLE"; }
+button.ql-td::after { content: "TABLE"; }
+button.ql-contain::after { content: "WRAP"; }
+button.ql-table[value="append-row"]::after { content: "ROWS+"; }
+button.ql-table[value="append-col"]::after { content: "COLS+"; }
+
+.ql-table,
+.ql-contain {
   width: auto !important;
   margin-right: -15px;
-}
-
-.contain:after, {
-  content: "<WRAP>";
-}
-
-button.ql-table::after {
-  content: "<TABLE>";
-}
-button.ql-td::after {
-  content: "<TABLE>";
-}
-
-
-.ql-picker.ql-table .ql-picker-label::before {
-  content: "<TABLE>";
 }
 
 .ql-picker.ql-table {
@@ -51,10 +43,6 @@ button.ql-td::after {
 
 .ql-picker.ql-table .ql-picker-label {
   padding: 0px 3px;
-}
-
-.ql-picker.ql-table .ql-picker-label::before {
-  content: "<TABLE>";
 }
 
 .ql-picker.ql-table .ql-picker-options {
@@ -72,7 +60,7 @@ button.ql-td::after {
   margin: 1px;
 }
 
-.ql-picker.ql-table .ql-picker-item:hover {
+.ql-picker.ql-table .ql-picker-item {
   background: lightgrey;
 }
 
@@ -80,7 +68,6 @@ button.ql-td::after {
   clear: both;
   display: block;
   content: "";
-
   width: 100%;
 }
 

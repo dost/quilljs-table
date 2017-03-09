@@ -1,16 +1,23 @@
-let Container = Quill.import('blots/container');
-let Parchment = Quill.import('parchment');
-let TableTrick = Quill.import('table_trick');
+import Parchment from 'parchment';
+import Container from './container';
+import TableTrick from './table_trick';
+import TableRow from './table_row';
 
 
 class Table extends Container {
+
   static create(value) {
+    let quill;
+    if(typeof value === 'object') {
+      quill = value.quill;
+      value = value.value;
+    }
     // special adding commands - belongs somewhere else out of constructor
     if(value == 'append-row') {
-      let blot = TableTrick.append_row();
+      let blot = TableTrick.appendRow(quill);
       return blot;
     } else if(value == 'append-col') {
-      let blot = TableTrick.append_col();
+      let blot = TableTrick.appendCol(quill);
       return blot;
     } else {
       // normal table
@@ -41,4 +48,5 @@ Table.scope = Parchment.Scope.BLOCK_BLOT;
 Table.defaultChild = 'tr';
 Table.allowedChildren = [TableRow];
 
-export default Table
+
+export default Table;
