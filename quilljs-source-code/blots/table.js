@@ -1,31 +1,15 @@
 import Parchment from 'parchment';
 import Container from './container';
-import TableTrick from './table_trick';
 import TableRow from './table_row';
 
 
 class Table extends Container {
 
   static create(value) {
-    let quill;
-    if(typeof value === 'object') {
-      quill = value.quill;
-      value = value.value;
-    }
-    // special adding commands - belongs somewhere else out of constructor
-    if(value == 'append-row') {
-      let blot = TableTrick.appendRow(quill);
-      return blot;
-    } else if(value == 'append-col') {
-      let blot = TableTrick.appendCol(quill);
-      return blot;
-    } else {
-      // normal table
-      let tagName = 'table';
-      let node = super.create(tagName);
-      node.setAttribute('table_id', value);
-      return node;
-    }
+    let tagName = 'table';
+    let node = super.create(tagName);
+    node.setAttribute('table_id', value);
+    return node;
   }
 
   optimize() {

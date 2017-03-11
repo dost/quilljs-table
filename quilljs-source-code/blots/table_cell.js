@@ -2,7 +2,7 @@ import Parchment from 'parchment';
 import Container from './container';
 import ContainBlot from './contain';
 import Block, { BlockEmbed } from './block';
-import TableTrick from './table_trick';
+import TableHandler from '../modules/table_handler';
 
 
 class TableCell extends ContainBlot {
@@ -10,7 +10,9 @@ class TableCell extends ContainBlot {
   static create(value) {
     console.log(value) // eslint-disable-line
     if(value == true) {
-      value = TableTrick.randomId()+'|'+TableTrick.randomId()+'|'+TableTrick.randomId();
+      value = TableHandler.randomId() + '|' +
+              TableHandler.randomId() + '|' +
+              TableHandler.randomId();
     }
     let tagName = 'td';
     let node = super.create(tagName);

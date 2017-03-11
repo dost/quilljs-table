@@ -69,35 +69,40 @@
           container: toolbarOptions,
           handlers: {
             'table': function(value) {
-              this.quill.format('table', { value: value, quill: this.quill });
+              if(value == 'append-row') {
+                quill.getModule('table_handler').appendRow();
+              } else if(value == 'append-col') {
+                quill.getModule('table_handler').appendCol();
+              } else {
+                this.quill.format('table', value);
+              }
             }
           }
-        }
+        },
+        table_handler: {}
       },
       theme: 'snow'
     });
 
-    // ~ TableTrick random_id()
-    function random_id() {
-      return Math.random().toString(36).slice(2)
-    }
+    // TableHandler module
+    let TableHandler = quill.getModule('table_handler');
 
     // Adding random IDs for clipboard table - is parsing always sequential?
-    let table_id = random_id();
-    let row_id = random_id();
+    let table_id = TableHandler.randomId();
+    let row_id = TableHandler.randomId();
     quill.clipboard.addMatcher('TABLE', function(node, delta) {
       console.log(node)
-      table_id = random_id();
+      table_id = TableHandler.randomId();
       return delta;
     });
     quill.clipboard.addMatcher('TR', function(node, delta) {
       console.log(node)
-      row_id = random_id();
+      row_id = TableHandler.randomId();
       return delta;
     });
     quill.clipboard.addMatcher('TD', function(node, delta) {
       console.log(node)
-      let cell_id = random_id();
+      let cell_id = TableHandler.randomId();
       return delta.compose(new Delta().retain(delta.length(), { td: table_id+'|'+row_id+'|'+cell_id }));
     });
 
