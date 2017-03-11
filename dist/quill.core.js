@@ -5499,7 +5499,7 @@ function handleDelete(range, context) {
 }
 
 function handleDeleteRange(range) {
-  // if (handleTables(range, this.quill)) return true; // handle tables
+  if (handleTables(range, this.quill)) return true; // handle tables
   this.quill.deleteText(range, _quill2.default.sources.USER);
   this.quill.setSelection(range.index, _quill2.default.sources.SILENT);
   this.quill.selection.scrollIntoView();
@@ -5608,15 +5608,12 @@ function normalize(binding) {
 }
 
 function handleTables(range, quill) {
-  return true; // eslint-disable-line
-  debugger; // eslint-disable-line
-
   var _quill$getLine7 = quill.getLine(range.index),
       _quill$getLine8 = _slicedToArray(_quill$getLine7, 1),
       line = _quill$getLine8[0];
 
-  if (line && line.next && line.next.domNode.nodeName === "TABLE") return true;
-  if (line && line.next && line.domNode.nodeName === "TABLE") return true;
+  debugger; // eslint-disable-line
+  if (line && line.parent && line.parent.domNode && line.parent.domNode.nodeName === "TD") return true;
   return false;
 }
 
