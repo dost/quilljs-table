@@ -18,14 +18,17 @@
   height: 25px;
 }
 
-button.ql-table::after { content: "TABLE"; }
 .ql-picker.ql-table .ql-picker-label::before { content: "TABLE"; }
-button.ql-td::after { content: "TABLE"; }
+button.ql-td::after { content: "TABLE+"; }
 button.ql-contain::after { content: "WRAP"; }
 button.ql-table[value="append-row"]::after { content: "ROWS+"; }
+button.ql-table[value="remove-row"]::after { content: "ROWS-"; }
 button.ql-table[value="append-col"]::after { content: "COLS+"; }
+button.ql-table[value="remove-col"]::after { content: "COLS-"; }
+button.ql-table[value="remove-table"]::after { content: "TABLE-"; }
 
 .ql-table,
+.ql-td,
 .ql-contain {
   width: auto !important;
   margin-right: -15px;

@@ -5847,8 +5847,9 @@ function handleTables(range, quill) {
   var _quill$getLine7 = quill.getLine(range.index),
       _quill$getLine8 = _slicedToArray(_quill$getLine7, 1),
       line = _quill$getLine8[0];
+  // debugger; // eslint-disable-line
 
-  debugger; // eslint-disable-line
+
   if (line && line.parent && line.parent.domNode && line.parent.domNode.nodeName === "TD") return true;
   return false;
 }
@@ -6126,9 +6127,9 @@ var ContainBlot = function (_Container) {
     key: 'insertBefore',
     value: function insertBefore(blot, ref) {
       if (blot.statics.blotName == this.statics.blotName) {
-        console.log('############################ Not sure this is clean:'); // eslint-disable-line
-        console.log(blot); // eslint-disable-line
-        console.log(blot.children.head); // eslint-disable-line
+        // console.log('############################ Not sure this is clean:') // eslint-disable-line
+        // console.log(blot) // eslint-disable-line
+        // console.log(blot.children.head) // eslint-disable-line
         _get(ContainBlot.prototype.__proto__ || Object.getPrototypeOf(ContainBlot.prototype), 'insertBefore', this).call(this, blot.children.head, ref);
       } else {
         _get(ContainBlot.prototype.__proto__ || Object.getPrototypeOf(ContainBlot.prototype), 'insertBefore', this).call(this, blot, ref);
@@ -6270,7 +6271,7 @@ var TableCell = function (_ContainBlot) {
   }, {
     key: 'create',
     value: function create(value) {
-      console.log(value); // eslint-disable-line
+      // console.log(value) // eslint-disable-line
       if (value == true) {
         value = this.randomId() + '|' + this.randomId() + '|' + this.randomId();
       }
@@ -10878,11 +10879,58 @@ var TableHandler = function (_Module) {
         newRow.domNode.setAttribute('row_id', rowId);
         for (var i = colCount - 1; i >= 0; i--) {
           var cellId = this.randomId();
-          var _td = _parchment2.default.create('td', tableId + '|' + rowId + '|' + cellId);
-          newRow.appendChild(_td);
+          var _td2 = _parchment2.default.create('td', tableId + '|' + rowId + '|' + cellId);
+          newRow.appendChild(_td2);
         }
         table.appendChild(newRow);
-        console.log(newRow); // eslint-disable-line
+      }
+    }
+  }, {
+    key: 'removeRow',
+    value: function removeRow() {
+      var td = this.findTd('td');
+      if (td) {
+        var tr = td.parent;
+        tr.remove();
+      }
+    }
+  }, {
+    key: 'removeCol',
+    value: function removeCol() {
+      var td = this.findTd('td');
+      if (td) {
+        var table = td.parent.parent;
+        var cellId = td.domNode.getAttribute('cell_id');
+        var colIndex = 1;
+
+        // Count colIndex
+        td.parent.children.forEach(function loop(_td) {
+          if (_td.domNode.getAttribute('cell_id') == cellId) {
+            loop.stop = true;
+            return;
+          }
+          // ~~ hack: Ecmascript doesn't support `break` :-/ ~~
+          if (!loop.stop) {
+            colIndex += 1;
+          }
+        });
+
+        // Remove all TDs with the colIndex
+        table.children.forEach(function (tr) {
+          var _td = tr.children.find(colIndex)[0];
+          if (_td) {
+            _td.remove();
+          }
+        });
+      }
+    }
+  }, {
+    key: 'removeTable',
+    value: function removeTable() {
+      var td = this.findTd('td');
+      if (td) {
+        var table = td.parent.parent;
+        table.remove();
       }
     }
   }]);
@@ -10915,19 +10963,28 @@ function defaultToolbarOptions() {
   ['contain'], ['td'], // new table (cursor needs to be out of table)
   [{ 'table': 'append-row' }], // cursor needs to be in the table
   [{ 'table': 'append-col' }], // cursor needs to be in the table
-  // Extended toolbar buttons
+  [{ 'table': 'remove-row' }], // cursor needs to be in the table
+  [{ 'table': 'remove-col' }], // cursor needs to be in the table
+  [{ 'table': 'remove-table' }], // cursor needs to be in the table
 
-  ['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{ 'header': 1 }, { 'header': 2 }], [{ 'list': 'ordered' }, { 'list': 'bullet' }], [{ 'script': 'sub' }, { 'script': 'super' }], [{ 'indent': '-1' }, { 'indent': '+1' }], [{ 'direction': 'rtl' }], [{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link', 'image', 'code-block'], ['clear']];
+  // Default toolbar buttons
+  ['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{ 'header': 1 }, { 'header': 2 }], [{ 'list': 'ordered' }, { 'list': 'bullet' }], [{ 'script': 'sub' }, { 'script': 'super' }], [{ 'indent': '-1' }, { 'indent': '+1' }], [{ 'direction': 'rtl' }], [{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link', 'image', 'code-block'], ['clean']];
 }
 
 _toolbar2.default.DEFAULTS = Object.assign(_toolbar2.default.DEFAULTS, {
-  container: defaultToolbarOptions(), // null
+  container: defaultToolbarOptions(),
   handlers: {
     table: function table(value) {
       if (value == 'append-row') {
         this.quill.getModule('table_handler').appendRow();
       } else if (value == 'append-col') {
         this.quill.getModule('table_handler').appendCol();
+      } else if (value == 'remove-row') {
+        this.quill.getModule('table_handler').removeRow();
+      } else if (value == 'remove-col') {
+        this.quill.getModule('table_handler').removeCol();
+      } else if (value == 'remove-table') {
+        this.quill.getModule('table_handler').removeTable();
       } else {
         this.quill.format('table', value);
       }

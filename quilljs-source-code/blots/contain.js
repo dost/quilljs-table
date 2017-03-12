@@ -13,9 +13,9 @@ class ContainBlot extends Container {
 
   insertBefore(blot, ref) {
     if (blot.statics.blotName == this.statics.blotName) {
-      console.log('############################ Not sure this is clean:') // eslint-disable-line
-      console.log(blot) // eslint-disable-line
-      console.log(blot.children.head) // eslint-disable-line
+      // console.log('############################ Not sure this is clean:') // eslint-disable-line
+      // console.log(blot) // eslint-disable-line
+      // console.log(blot.children.head) // eslint-disable-line
       super.insertBefore(blot.children.head, ref);
     } else {
       super.insertBefore(blot, ref);

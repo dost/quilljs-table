@@ -5611,8 +5611,9 @@ function handleTables(range, quill) {
   var _quill$getLine7 = quill.getLine(range.index),
       _quill$getLine8 = _slicedToArray(_quill$getLine7, 1),
       line = _quill$getLine8[0];
+  // debugger; // eslint-disable-line
 
-  debugger; // eslint-disable-line
+
   if (line && line.parent && line.parent.domNode && line.parent.domNode.nodeName === "TD") return true;
   return false;
 }
