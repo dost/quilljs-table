@@ -11,7 +11,7 @@ class TableCell extends ContainBlot {
   }
 
   static create(value) {
-    console.log(value) // eslint-disable-line
+    // console.log(value) // eslint-disable-line
     if(value == true) {
       value = this.randomId() + '|' +
               this.randomId() + '|' +

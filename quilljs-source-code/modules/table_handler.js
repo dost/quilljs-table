@@ -61,11 +61,55 @@ class TableHandler extends Module {
         newRow.appendChild(td);
       }
       table.appendChild(newRow);
-      console.log(newRow); // eslint-disable-line
+    }
+  }
+
+  removeRow() {
+    let td = this.findTd('td');
+    if(td) {
+      let tr = td.parent;
+      tr.remove();
+    }
+  }
+
+  removeCol() {
+    let td = this.findTd('td');
+    if(td) {
+      let table = td.parent.parent;
+      let cellId = td.domNode.getAttribute('cell_id');
+      let colIndex = 1;
+
+      // Count colIndex
+      td.parent.children.forEach(function loop(_td) {
+        if(_td.domNode.getAttribute('cell_id') == cellId) {
+          loop.stop = true;
+          return;
+        }
+        // ~~ hack: Ecmascript doesn't support `break` :-/ ~~
+        if(!loop.stop) {
+          colIndex += 1;
+        }
+      })
+
+      // Remove all TDs with the colIndex
+      table.children.forEach(function(tr) {
+        let _td = tr.children.find(colIndex)[0];
+        if(_td) {
+          _td.remove();
+        }
+      });
+    }
+  }
+
+  removeTable() {
+    let td = this.findTd('td');
+    if(td) {
+      let table = td.parent.parent;
+      table.remove();
     }
   }
 
 }
 
 
-export default TableHandler;
+export default TableHandler

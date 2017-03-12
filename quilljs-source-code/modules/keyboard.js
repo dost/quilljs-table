@@ -388,7 +388,7 @@ function normalize(binding) {
 
 function handleTables(range, quill) {
   let [line, ] = quill.getLine(range.index);
-  debugger; // eslint-disable-line
+  // debugger; // eslint-disable-line
   if (line && line.parent && line.parent.domNode && line.parent.domNode.nodeName === "TD") return true;
   return false;
 }

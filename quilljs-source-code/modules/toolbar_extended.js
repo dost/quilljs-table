@@ -8,6 +8,9 @@ function defaultToolbarOptions() {
     ['td'], // new table (cursor needs to be out of table)
     [{ 'table': 'append-row' }], // cursor needs to be in the table
     [{ 'table': 'append-col' }], // cursor needs to be in the table
+    [{ 'table': 'remove-row' }], // cursor needs to be in the table
+    [{ 'table': 'remove-col' }], // cursor needs to be in the table
+    [{ 'table': 'remove-table' }], // cursor needs to be in the table
 
     // Default toolbar buttons
     ['bold', 'italic', 'underline', 'strike'],
@@ -40,6 +43,12 @@ Toolbar.DEFAULTS = Object.assign(Toolbar.DEFAULTS, {
         this.quill.getModule('table_handler').appendRow();
       } else if(value == 'append-col') {
         this.quill.getModule('table_handler').appendCol();
+      } else if(value == 'remove-row') {
+        this.quill.getModule('table_handler').removeRow();
+      } else if(value == 'remove-col') {
+        this.quill.getModule('table_handler').removeCol();
+      } else if(value == 'remove-table') {
+        this.quill.getModule('table_handler').removeTable();
       } else {
         this.quill.format('table', value);
       }
