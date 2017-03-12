@@ -2,17 +2,20 @@ import Parchment from 'parchment';
 import Container from './container';
 import ContainBlot from './contain';
 import Block, { BlockEmbed } from './block';
-import TableHandler from '../modules/table_handler';
 
 
 class TableCell extends ContainBlot {
 
+  static randomId() {
+    return Math.random().toString(36).slice(2)
+  }
+
   static create(value) {
     console.log(value) // eslint-disable-line
     if(value == true) {
-      value = TableHandler.randomId() + '|' +
-              TableHandler.randomId() + '|' +
-              TableHandler.randomId();
+      value = this.randomId() + '|' +
+              this.randomId() + '|' +
+              this.randomId();
     }
     let tagName = 'td';
     let node = super.create(tagName);

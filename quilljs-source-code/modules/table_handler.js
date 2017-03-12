@@ -68,4 +68,4 @@ class TableHandler extends Module {
 }
 
 
-export default TableHandler
+export default TableHandler;
