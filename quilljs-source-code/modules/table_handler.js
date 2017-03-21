@@ -109,6 +109,14 @@ class TableHandler extends Module {
     }
   }
 
+  cellBackground(color) {
+    let td = this.findTd('td');
+    if(td) {
+      let style = 'background:' + color;
+      td.format('style', color ? style : false);
+    }
+  }
+
 }
 
 

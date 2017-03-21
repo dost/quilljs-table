@@ -23,11 +23,19 @@ class TableCell extends ContainBlot {
     node.setAttribute('table_id', ids[0]);
     node.setAttribute('row_id', ids[1]);
     node.setAttribute('cell_id', ids[2]);
+    node.setAttribute('style', ids[3] ? ids[3] : null);
     return node;
   }
 
-  format() {
-    this.getAttribute('id');
+  format(name, value) {
+    // console.log('name: ' + name + ' value: ' + value);
+    if (name != null) {
+      if(value) {
+        this.domNode.setAttribute(name, value);
+      } else {
+        this.domNode.removeAttribute(name);
+      }
+    }
   }
 
   formats() {
@@ -35,7 +43,9 @@ class TableCell extends ContainBlot {
     return { [this.statics.blotName]:
       this.domNode.getAttribute('table_id') + '|' +
       this.domNode.getAttribute('row_id') + '|' +
-      this.domNode.getAttribute('cell_id') }
+      this.domNode.getAttribute('cell_id') + '|' +
+      this.domNode.getAttribute('style')
+    }
   }
 
   optimize() {

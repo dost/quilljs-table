@@ -26,6 +26,7 @@ button.ql-table[value="remove-row"]::after { content: "ROWS-"; }
 button.ql-table[value="append-col"]::after { content: "COLS+"; }
 button.ql-table[value="remove-col"]::after { content: "COLS-"; }
 button.ql-table[value="remove-table"]::after { content: "TABLE-"; }
+button.ql-table[value="cell-background"]::after { content: "TD BG"; }
 
 .ql-table,
 .ql-td,
