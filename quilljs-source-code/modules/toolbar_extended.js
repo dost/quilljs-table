@@ -11,6 +11,7 @@ function defaultToolbarOptions() {
     [{ 'table': 'remove-row' }], // cursor needs to be in the table
     [{ 'table': 'remove-col' }], // cursor needs to be in the table
     [{ 'table': 'remove-table' }], // cursor needs to be in the table
+    [{ 'table': 'cell-background' }], // cursor needs to be in the table
 
     // Default toolbar buttons
     ['bold', 'italic', 'underline', 'strike'],
@@ -49,6 +50,11 @@ Toolbar.DEFAULTS = Object.assign(Toolbar.DEFAULTS, {
         this.quill.getModule('table_handler').removeCol();
       } else if(value == 'remove-table') {
         this.quill.getModule('table_handler').removeTable();
+      } else if(value == 'cell-background') {
+        let bgColor = prompt('Background color?');
+        if(bgColor != null) {
+          this.quill.getModule('table_handler').cellBackground(bgColor);
+        }
       } else {
         this.quill.format('table', value);
       }
