@@ -6238,14 +6238,21 @@ var TableCell = function (_ContainBlot) {
 
   _createClass(TableCell, [{
     key: 'format',
-    value: function format() {
-      this.getAttribute('id');
+    value: function format(name, value) {
+      // console.log('name: ' + name + ' value: ' + value);
+      if (name != null) {
+        if (value) {
+          this.domNode.setAttribute(name, value);
+        } else {
+          this.domNode.removeAttribute(name);
+        }
+      }
     }
   }, {
     key: 'formats',
     value: function formats() {
       // We don't inherit from FormatBlot
-      return _defineProperty({}, this.statics.blotName, this.domNode.getAttribute('table_id') + '|' + this.domNode.getAttribute('row_id') + '|' + this.domNode.getAttribute('cell_id'));
+      return _defineProperty({}, this.statics.blotName, this.domNode.getAttribute('table_id') + '|' + this.domNode.getAttribute('row_id') + '|' + this.domNode.getAttribute('cell_id') + '|' + this.domNode.getAttribute('style'));
     }
   }, {
     key: 'optimize',
@@ -6290,6 +6297,7 @@ var TableCell = function (_ContainBlot) {
       node.setAttribute('table_id', ids[0]);
       node.setAttribute('row_id', ids[1]);
       node.setAttribute('cell_id', ids[2]);
+      node.setAttribute('style', ids[3] ? ids[3] : null);
       return node;
     }
   }]);
@@ -10942,6 +10950,15 @@ var TableHandler = function (_Module) {
         table.remove();
       }
     }
+  }, {
+    key: 'cellBackground',
+    value: function cellBackground(color) {
+      var td = this.findTd('td');
+      if (td) {
+        var style = 'background:' + color;
+        td.format('style', color ? style : false);
+      }
+    }
   }]);
 
   return TableHandler;
@@ -10975,6 +10992,7 @@ function defaultToolbarOptions() {
   [{ 'table': 'remove-row' }], // cursor needs to be in the table
   [{ 'table': 'remove-col' }], // cursor needs to be in the table
   [{ 'table': 'remove-table' }], // cursor needs to be in the table
+  [{ 'table': 'cell-background' }], // cursor needs to be in the table
 
   // Default toolbar buttons
   ['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{ 'header': 1 }, { 'header': 2 }], [{ 'list': 'ordered' }, { 'list': 'bullet' }], [{ 'script': 'sub' }, { 'script': 'super' }], [{ 'indent': '-1' }, { 'indent': '+1' }], [{ 'direction': 'rtl' }], [{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link', 'image', 'code-block'], ['clean']];
@@ -10994,6 +11012,11 @@ _toolbar2.default.DEFAULTS = Object.assign(_toolbar2.default.DEFAULTS, {
         this.quill.getModule('table_handler').removeCol();
       } else if (value == 'remove-table') {
         this.quill.getModule('table_handler').removeTable();
+      } else if (value == 'cell-background') {
+        var bgColor = prompt('Background color?');
+        if (bgColor != null) {
+          this.quill.getModule('table_handler').cellBackground(bgColor);
+        }
       } else {
         this.quill.format('table', value);
       }
