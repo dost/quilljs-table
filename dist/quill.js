@@ -6153,16 +6153,25 @@ var ContainBlot = function (_Container) {
       _get(ContainBlot.prototype.__proto__ || Object.getPrototypeOf(ContainBlot.prototype), 'replace', this).call(this, target);
     }
   }], [{
+    key: 'randomId',
+    value: function randomId() {
+      return Math.random().toString(36).slice(2);
+    }
+  }, {
     key: 'create',
-    value: function create() {
+    value: function create(value) {
       var tagName = 'contain';
       var node = _get(ContainBlot.__proto__ || Object.getPrototypeOf(ContainBlot), 'create', this).call(this, tagName);
+      if (value == true) {
+        value = this.randomId();
+      }
+      node.setAttribute('id', value);
       return node;
     }
   }, {
     key: 'formats',
     value: function formats(domNode) {
-      return domNode.tagName;
+      return domNode.getAttribute('id');
     }
   }]);
 

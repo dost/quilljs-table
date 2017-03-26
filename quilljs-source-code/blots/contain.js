@@ -5,9 +5,17 @@ import Block, { BlockEmbed } from './block';
 
 class ContainBlot extends Container {
 
-  static create() {
+  static randomId() {
+    return Math.random().toString(36).slice(2)
+  }
+
+  static create(value) {
     let tagName = 'contain';
     let node = super.create(tagName);
+    if(value == true) {
+      value = this.randomId();
+    }
+    node.setAttribute('id', value);
     return node;
   }
 
@@ -23,7 +31,7 @@ class ContainBlot extends Container {
   }
 
   static formats(domNode) {
-    return domNode.tagName;
+    return domNode.getAttribute('id');
   }
 
   formats() {
