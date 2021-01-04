@@ -1,3 +1,6 @@
+:bangbang: | This repository is not maintained. It served as a testing platform only. It is recommended you don't use it in production environments.
+:---: | :---
+
 # QuillJS table
 
 Test lab for creating `TABLE` functionality in QuillJS using Containers.
